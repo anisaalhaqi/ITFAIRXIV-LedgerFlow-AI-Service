@@ -1,0 +1,18 @@
+Environment
+
+.env
+venv/
+
+Python compiled
+
+pycache/
+*.pyc
+
+Data & Models
+
+/models/.pkl
+/data/.csv
+
+FastAPI/Uvicorn logs
+
+*.log
