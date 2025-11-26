@@ -1,0 +1,9 @@
+#Dependencies
+/ai_env/
+/venv/
+#Environment variables
+.env
+#Python compiled
+__pycache__/
+*.pyc
+*.log

@@ -6,7 +6,8 @@ from pydantic import BaseModel
 
 load_dotenv()
 
-from app.analysis_logic import run_analysis, Transaction
+# Impor FinancialAnalysisInput baru
+from app.analysis_logic import run_analysis, Transaction, FinancialAnalysisInput
 
 app = FastAPI(
     title="LedgerFlow AI Service (Gemini)",
@@ -15,7 +16,13 @@ app = FastAPI(
 )
 
 @app.post("/calculate-score", response_model=dict)
-async def calculate_score(transactions: list[Transaction], current_balance: float = 0.0):
+# UBAH TIPE INPUT DARI 2 ARGUMEN MENJADI 1 OBJEK FinancialAnalysisInput
+async def calculate_score(input_data: FinancialAnalysisInput):
+    
+    # Dapatkan data dari objek input
+    transactions = input_data.transactions
+    current_balance = input_data.current_balance 
+    
     if not os.getenv("GEMINI_API_KEY"):
         raise HTTPException(
             status_code=503,
@@ -23,6 +30,7 @@ async def calculate_score(transactions: list[Transaction], current_balance: floa
         )
 
     try:
+        # Panggil run_analysis dengan data yang sudah diekstrak
         result = run_analysis(transactions, current_balance)
         return result
         
